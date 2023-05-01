@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService } from 'src/app/service/data.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +9,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  email: string = '';
+  username: string = '';
   password: string = '';
+  errorMessage: any = null;
 
-  onSubmit() {
-    console.log(`Email: ${this.email}, Password: ${this.password}`);
+  constructor(
+    private router: Router,
+    private dataService: DataService,
+    private authService: AuthService
+  ) {}
+
+  async login() {
+    try {
+      const response = await this.dataService.login(
+        this.username,
+        this.password
+      );
+      sessionStorage.setItem('userId', response.data.id);
+      sessionStorage.setItem('userJWT', response.data.jwt);
+      this.authService.setIsAuthenticated(true);
+      this.router.navigate(['/']);
+    } catch (error: any) {
+      this.errorMessage = error.response.data.message;
+    }
   }
 }
