@@ -11,9 +11,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessagesComponent } from './components/messages/messages.component';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthGuard } from './service/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: MessagesComponent },
+  { path: '', component: MessagesComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 ];
