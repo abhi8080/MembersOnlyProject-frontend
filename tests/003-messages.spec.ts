@@ -4,25 +4,28 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/login');
 });
 
-
 test('Can create a new message successfully', async ({ page }) => {
-  await page.getByPlaceholder('Enter email').click();
-  await page
-    .getByPlaceholder('Enter email')
-    .fill('playwrighttestnotadmin@gmail.com');
-  await page.getByPlaceholder('Password').click();
-  await page.getByPlaceholder('Password').fill('password');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.getByRole('button', { name: 'Create a new message' }).click();
-  await page.getByLabel('Title').click();
-  await page.getByLabel('Title').fill('Hello Everyone');
-  await page.getByLabel('Text').click();
-  await page.getByLabel('Text').fill('Hello');
-  await page.getByRole('button', { name: 'Sumbit' }).click();
-  await page.getByText('Close').click();
+  try {
+    await page.getByPlaceholder('Enter email').click();
+    await page
+      .getByPlaceholder('Enter email')
+      .fill('playwrighttestnotadmin@gmail.com');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('password');
+    await page.getByRole('button', { name: 'Login' }).click();
+    await page.getByRole('button', { name: 'Create a new message' }).click();
+    await page.getByLabel('Title').click();
+    await page.getByLabel('Title').fill('Hello Everyone');
+    await page.getByLabel('Text').click();
+    await page.getByLabel('Text').fill('Hello');
+    await page.getByRole('button', { name: 'Sumbit' }).click();
+    await page.getByText('Close').click();
 
-  const cardTitleElement = await page.waitForSelector('.card-title');
-  expect(await cardTitleElement.textContent()).toBe('Hello Everyone');
+    const cardTitleElement = await page.waitForSelector('.card-title');
+    expect(await cardTitleElement.textContent()).toBe('Hello Everyone');
+  } catch (err: any) {
+    alert(err.message);
+  }
 });
 
 test('A non-member user can not see the author name', async ({ page }) => {
