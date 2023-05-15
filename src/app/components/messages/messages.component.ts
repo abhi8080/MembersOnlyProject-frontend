@@ -3,6 +3,7 @@ import { Message } from 'src/app/message';
 import { DataService } from 'src/app/service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/service/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -21,7 +22,8 @@ export class MessagesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private modalService: NgbModal,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,10 @@ export class MessagesComponent implements OnInit {
   async getUserAdminStatus() {
     const response = await this.dataService.getUserAdminStatus();
     if ((await response.data.isAdmin) == 1) this.isAdmin = true;
+  }
+
+  public selectLanguage(event: any) {
+    this.translateService.use(event.target.value);
   }
 
   logout() {

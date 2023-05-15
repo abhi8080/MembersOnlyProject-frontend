@@ -27,7 +27,7 @@ export class DataService {
   insertMessage(data: Message) {
     axiosRequest.defaults.headers.common['Authorization'] =
       'Bearer ' + sessionStorage.getItem('userJWT');
-    data.user_id = 1;
+    data.user_id = sessionStorage.getItem('userId');
     const date = new Date();
     data.timestamp = date
       .toISOString()

@@ -1,6 +1,16 @@
 <div class="d-flex align-items-center justify-content-between mb-3">
   <h1>Messages</h1>
   <button class="btn btn-secondary" (click)="logout()">Logout</button>
+  <div class="picker-label">{{ "choose_language" | translate }}</div>
+
+  <select (change)="selectLanguage($event)">
+    <option value="en-US">English</option>
+    <option value="fr-FR">French</option>
+    <option value="de-DE">German</option>
+  </select>
+</div>
+<div class="content">
+  <h1>{{ "welcome_text" | translate }}</h1>
 </div>
 <button class="btn btn-primary" (click)="addMessage()">
   Create a new message
