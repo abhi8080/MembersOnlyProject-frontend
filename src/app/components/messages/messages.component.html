@@ -1,4 +1,7 @@
-<h1>Messages</h1>
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1>Messages</h1>
+  <button class="btn btn-secondary" (click)="logout()">Logout</button>
+</div>
 <button class="btn btn-primary" (click)="addMessage()">
   Create a new message
 </button>
@@ -8,19 +11,19 @@
 </button>
 
 <ng-template #joinModal let-modal>
-  <div
-    *ngIf="membershipMessage"
-    class="alert"
-    [ngClass]="
-      membershipMessage === 'You are a member now!'
-        ? 'alert-success'
-        : 'alert-danger'
-    "
-  >
-    {{ membershipMessage }}
-  </div>
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <div
+      *ngIf="membershipMessage"
+      class="alert"
+      [ngClass]="
+        membershipMessage === 'You are a member now!'
+          ? 'alert-success'
+          : 'alert-danger'
+      "
+    >
+      {{ membershipMessage }}
+    </div>
+    <h4 class="modal-title">Join the club</h4>
     <button
       type="button"
       class="close"
@@ -61,7 +64,7 @@
 
 <ng-template #messageModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h4 class="modal-title">Create a new message</h4>
     <button
       type="button"
       class="close"
@@ -111,15 +114,16 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">{{ message.title }}</h4>
-      <h6 class="card-subtitle mb-2 text-muted">{{ message.user_id }}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{ message.full_name }}</h6>
       <p class="card-text">
         {{ message.text }}
       </p>
     </div>
-    <div class="card-footer text-muted">
-      {{ message.timestamp }}
+    <div class="card-footer text-muted d-flex justify-content-between">
+      <span>{{ message.timestamp }}</span>
       <button
-        class="btn btn-danger float-right"
+        *ngIf="isAdmin"
+        class="btn btn-danger"
         (click)="removeMessage(message.id)"
       >
         Remove

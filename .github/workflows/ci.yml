@@ -1,0 +1,86 @@
+name: Node Continuous Integration
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  acceptance_test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: members-only_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout the Backend
+        uses: actions/checkout@v3
+        with:
+          repository: abhi8080/MembersOnlyProject-backend
+          ref: master
+          path: backend
+
+      - name: Checkout the Frontend
+        uses: actions/checkout@v3
+        with:
+          path: frontend
+
+      - name: Install PHP and Dependencies
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo_mysql
+
+      - name: Install Composer Dependencies
+        run: composer install
+        working-directory: ./backend
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+        working-directory: ./backend
+
+      - name: Migrate tables to database
+        run: php artisan migrate --force
+        working-directory: ./backend
+
+      - name: Start Backend
+        run: php artisan serve&
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: members-only_db
+          DB_USERNAME: user
+          DB_PASSWORD: password
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          TEST_BEARER_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiYWRtaW5AZ21haWwuY29tIiwibWVtYmVyc2hpcC1zdGF0dXMiOiJpbmFjdGl2ZSJ9.HXC-RkfS-NcVXTqUhBi-p2D6dadeWyqZgXcjpjwgUxs
+          APP_KEY: base64:yj4IkUzjUqxmtAadEVJ5UJ6k1D8jMfah6+LwYWYbka0=
+        working-directory: ./backend
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.x
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        working-directory: ./frontend
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 30

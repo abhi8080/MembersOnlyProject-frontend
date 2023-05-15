@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Message } from 'src/app/message';
 import { DataService } from 'src/app/service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { AuthService } from 'src/app/service/auth.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -20,7 +20,8 @@ export class MessagesComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class MessagesComponent implements OnInit {
   async getMessages() {
     const response = await this.dataService.getMessages();
     this.messages = await response.data;
-    if (this.messages[0].user_id !== 'Anonymous') this.isMember = true;
+    if (this.messages[0].full_name !== 'Anonymous') this.isMember = true;
   }
 
   addMessage() {
@@ -42,10 +43,13 @@ export class MessagesComponent implements OnInit {
     this.modalService.open(this.joinModal);
   }
 
-  createMessage() {
-    this.dataService.insertMessage(this.message).subscribe(() => {
+  async createMessage() {
+    try {
+      await this.dataService.insertMessage(this.message);
       this.getMessages();
-    });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async removeMessage(messageId: number) {
@@ -68,5 +72,12 @@ export class MessagesComponent implements OnInit {
   async getUserAdminStatus() {
     const response = await this.dataService.getUserAdminStatus();
     if ((await response.data.isAdmin) == 1) this.isAdmin = true;
+  }
+
+  logout() {
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('userJWT');
+    this.authService.setIsAuthenticated(false);
+    window.location.reload();
   }
 }
