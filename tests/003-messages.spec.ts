@@ -4,6 +4,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/login');
 });
 
+
 test('Can create a new message successfully', async ({ page }) => {
   await page.getByPlaceholder('Enter email').click();
   await page
