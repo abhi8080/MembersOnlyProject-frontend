@@ -94,6 +94,9 @@ jobs:
         run: npm ci
         working-directory: ./frontend
 
+      - name: Install Playwright Browsers
+        run: npx playwright install
+
       - name: Run Playwright tests
         run: npx playwright test
         working-directory: ./frontend
