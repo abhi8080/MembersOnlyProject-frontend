@@ -49,7 +49,8 @@ export class MessagesComponent implements OnInit {
     try {
       await this.dataService.insertMessage(this.message);
       this.getMessages();
-    } catch (error) {
+    } catch (error: any) {
+      alert(error.message);
       console.error(error);
     }
   }
