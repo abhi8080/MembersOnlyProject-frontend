@@ -83,7 +83,7 @@ jobs:
           DB_USERNAME: user
           DB_PASSWORD: password
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          TEST_BEARER_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiYWRtaW5AZ21haWwuY29tIiwibWVtYmVyc2hpcC1zdGF0dXMiOiJpbmFjdGl2ZSJ9.HXC-RkfS-NcVXTqUhBi-p2D6dadeWyqZgXcjpjwgUxs
+          BEARER_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiYWRtaW5AZ21haWwuY29tIiwibWVtYmVyc2hpcC1zdGF0dXMiOiJpbmFjdGl2ZSJ9.HXC-RkfS-NcVXTqUhBi-p2D6dadeWyqZgXcjpjwgUxs
           APP_KEY: base64:yj4IkUzjUqxmtAadEVJ5UJ6k1D8jMfah6+LwYWYbka0=
         working-directory: ./backend
 
