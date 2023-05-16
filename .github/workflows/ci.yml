@@ -49,7 +49,7 @@ jobs:
         run: php artisan key:generate
         env:
           DB_CONNECTION: mysql
-          DB_HOST: localhost
+          DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: members_only_db
           DB_USERNAME: user
@@ -77,7 +77,7 @@ jobs:
         run: php artisan serve&
         env:
           DB_CONNECTION: mysql
-          DB_HOST: localhost
+          DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: members_only_db
           DB_USERNAME: user
@@ -96,8 +96,11 @@ jobs:
         run: npm ci
         working-directory: ./frontend
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright Dependencies
         run: npx playwright install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install-deps
 
       - name: Run Playwright tests
         run: npx playwright test
