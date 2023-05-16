@@ -66,9 +66,13 @@ export class MessagesComponent implements OnInit {
 
   async sumbitPasscode() {
     if (this.passcode.toUpperCase() === 'TOKYO') {
-      await this.dataService.updateMembershipStatus();
-      this.membershipMessage = 'You are a member now!';
-      this.getMessages();
+      try {
+        await this.dataService.updateMembershipStatus();
+        this.membershipMessage = 'You are a member now!';
+        this.getMessages();
+      } catch (error: any) {
+        this.membershipMessage = error.message;
+      }
     } else this.membershipMessage = 'The passcode is not correct. Try again!';
   }
 
