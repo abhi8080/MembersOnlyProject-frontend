@@ -63,7 +63,7 @@ jobs:
         run: php artisan migrate --force
         env:
           DB_CONNECTION: mysql
-          DB_HOST: localhost
+          DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: members_only_db
           DB_USERNAME: user
