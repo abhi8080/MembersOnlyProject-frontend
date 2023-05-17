@@ -3,6 +3,8 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6 and contains the frontend code for the
 Members Only Application.
 
+Website: https://members-only-383911.web.app
+
 ## Prerequisites
 
 Node and npm must be installed on the local system.
