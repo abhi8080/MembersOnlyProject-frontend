@@ -1,0 +1,14 @@
+{
+  "choose_language": "Välj språk",
+  "language.english": "Engelska",
+  "language.swedish": "Svenska",
+  "create_message": "Skapa ett nytt meddelande",
+  "join_club": "Gå med i klubben",
+  "hint": "Ledtråd: Det är den mest folkrika staden i världen",
+  "enter_passcode": "Ange det hemliga lösenordet",
+  "submit": "Bekräfta",
+  "close": "Stäng",
+  "title": "Titel",
+  "messages": "Meddelanden",
+  "log_out": "Logga ut"
+}

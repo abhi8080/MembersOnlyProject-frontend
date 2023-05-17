@@ -1,9 +1,14 @@
 {
   "choose_language": "Choose language",
-  "info": "Show Info",
   "language.english": "English",
-  "language.french": "French",
-  "language.german": "German",
-  "title": "Awesome super APP!",
-  "welcome_text": "Welcome to the super APP!"
+  "language.swedish": "Swedish",
+  "create_message": "Create a new message",
+  "join_club": "Join the club",
+  "hint": "Hint: It is the most populated city in the world",
+  "enter_passcode": "Enter the secret passcode",
+  "submit": "Submit",
+  "close": "Close",
+  "title": "Title",
+  "messages": "Messages",
+  "log_out": "Log out"
 }

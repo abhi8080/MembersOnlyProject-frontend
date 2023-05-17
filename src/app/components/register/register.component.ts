@@ -15,19 +15,26 @@ export class RegisterComponent {
     private router: Router,
     private authService: AuthService
   ) {}
+
   errorMessage: any = null;
   user = new User();
 
-  async createNewUser() {
+  /**
+   * Creates a new user and logs in
+   */
+  async createNewUser(): Promise<void> {
     try {
       await this.dataService.createUser(this.user);
+
       const response = await this.dataService.login(
         this.user.username,
         this.user.password
       );
       sessionStorage.setItem('userId', response.data.id);
       sessionStorage.setItem('userJWT', response.data.jwt);
+
       this.authService.setIsAuthenticated(true);
+
       this.router.navigate(['/']);
     } catch (error: any) {
       this.errorMessage = 'Email already exists';
