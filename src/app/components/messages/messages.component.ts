@@ -31,31 +31,46 @@ export class MessagesComponent implements OnInit {
     this.getUserAdminStatus();
   }
 
-  async getMessages() {
+  /**
+   * Retrieves messages from the data service
+   */
+  async getMessages(): Promise<void> {
     const response = await this.dataService.getMessages();
     this.messages = await response.data;
     if (this.messages[0].full_name !== 'Anonymous') this.isMember = true;
   }
 
-  addMessage() {
+  /**
+   * Opens the add message modal
+   */
+  addMessage(): void {
     this.modalService.open(this.addMessageModal);
   }
 
-  handleJoinTheClub() {
+  /**
+   * Handles the join the club modal
+   */
+  handleJoinTheClub(): void {
     this.modalService.open(this.joinModal);
   }
 
-  async createMessage() {
+  /**
+   * Creates a new message
+   */
+  async createMessage(): Promise<void> {
     try {
       await this.dataService.insertMessage(this.message);
       this.getMessages();
     } catch (error: any) {
-      alert(error.message);
       console.error(error);
     }
   }
 
-  async removeMessage(messageId: number) {
+  /**
+   * Removes a message
+   * @param messageId The ID of the message to remove
+   */
+  async removeMessage(messageId: number): Promise<void> {
     try {
       await this.dataService.removeMessage(messageId);
       this.getMessages();
@@ -64,24 +79,47 @@ export class MessagesComponent implements OnInit {
     }
   }
 
-  async sumbitPasscode() {
+  /**
+   * Submits the passcode to update the membership status
+   */
+  async sumbitPasscode(): Promise<void> {
     if (this.passcode.toUpperCase() === 'TOKYO') {
       await this.dataService.updateMembershipStatus();
-      this.membershipMessage = 'You are a member now!';
+      const message =
+        this.translateService.currentLang == 'se-SE'
+          ? 'Du är medlem nu!'
+          : 'You are a member now!';
+      this.membershipMessage = message;
       this.getMessages();
-    } else this.membershipMessage = 'The passcode is not correct. Try again!';
+    } else {
+      const message =
+        this.translateService.currentLang == 'se-SE'
+          ? 'Lösenordet är inte korrekt. Försök igen!'
+          : 'The passcode is not correct. Please try again!';
+      this.membershipMessage = message;
+    }
   }
 
-  async getUserAdminStatus() {
+  /**
+   * Retrieves the user's admin status
+   */
+  async getUserAdminStatus(): Promise<void> {
     const response = await this.dataService.getUserAdminStatus();
     if ((await response.data.isAdmin) == 1) this.isAdmin = true;
   }
 
-  public selectLanguage(event: any) {
+  /**
+   * Handles the selection of a language
+   * @param event The language selection event
+   */
+  public selectLanguage(event: any): void {
     this.translateService.use(event.target.value);
   }
 
-  logout() {
+  /**
+   * Logs out the user
+   */
+  logout(): void {
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('userJWT');
     this.authService.setIsAuthenticated(false);

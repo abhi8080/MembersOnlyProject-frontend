@@ -19,6 +19,9 @@ export class LoginComponent {
     private authService: AuthService
   ) {}
 
+  /**
+   * Method to handle the login functionality
+   */
   async login() {
     try {
       const response = await this.dataService.login(

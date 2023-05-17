@@ -1,23 +1,23 @@
 <div class="d-flex align-items-center justify-content-between mb-3">
-  <h1>Messages</h1>
-  <button class="btn btn-secondary" (click)="logout()">Logout</button>
-  <div class="picker-label">{{ "choose_language" | translate }}</div>
+  <h1>{{ "messages" | translate }}</h1>
+  <button class="btn btn-secondary" (click)="logout()">
+    {{ "log_out" | translate }}
+  </button>
+  <div class="d-flex align-items-center">
+    <div class="picker-label">{{ "choose_language" | translate }}</div>
+    <select class="form-select ms-2" (change)="selectLanguage($event)">
+      <option value="en-US">{{ "language.english" | translate }}</option>
+      <option value="se-SE">{{ "language.swedish" | translate }}</option>
+    </select>
+  </div>
+</div>
 
-  <select (change)="selectLanguage($event)">
-    <option value="en-US">English</option>
-    <option value="fr-FR">French</option>
-    <option value="de-DE">German</option>
-  </select>
-</div>
-<div class="content">
-  <h1>{{ "welcome_text" | translate }}</h1>
-</div>
 <button class="btn btn-primary" (click)="addMessage()">
-  Create a new message
+  {{ "create_message" | translate }}
 </button>
 
 <button *ngIf="!isMember" class="btn btn-primary" (click)="handleJoinTheClub()">
-  Join the club
+  {{ "join_club" | translate }}
 </button>
 
 <ng-template #joinModal let-modal>
@@ -26,14 +26,15 @@
       *ngIf="membershipMessage"
       class="alert"
       [ngClass]="
-        membershipMessage === 'You are a member now!'
+        membershipMessage === 'You are a member now!' ||
+        membershipMessage === 'Du är medlem nu!'
           ? 'alert-success'
           : 'alert-danger'
       "
     >
       {{ membershipMessage }}
     </div>
-    <h4 class="modal-title">Join the club</h4>
+    <h4 class="modal-title">{{ "join_club" | translate }}</h4>
     <button
       type="button"
       class="close"
@@ -46,19 +47,21 @@
   <div class="modal-body">
     <form (ngSubmit)="sumbitPasscode()">
       <div class="mb-3">
-        <label for="post-title" class="form-label"
-          >Enter the secret passcode</label
-        >
+        <label for="post-title" class="form-label">{{
+          "enter_passcode" | translate
+        }}</label>
         <input
           type="text"
           class="form-control"
           name="title"
           id="post-title"
-          placeholder="Hint: It is the most populated city in the world"
+          [placeholder]="'hint' | translate"
           [(ngModel)]="passcode"
         />
       </div>
-      <button class="btn btn-dark btn-sm mt-4">Sumbit</button>
+      <button class="btn btn-dark btn-sm mt-4">
+        {{ "submit" | translate }}
+      </button>
     </form>
   </div>
   <div class="modal-footer">
@@ -67,14 +70,14 @@
       class="btn btn-secondary"
       (click)="modal.close('Close click')"
     >
-      Close
+      {{ "close" | translate }}
     </button>
   </div>
 </ng-template>
 
 <ng-template #messageModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Create a new message</h4>
+    <h4 class="modal-title">{{ "create_message" | translate }}</h4>
     <button
       type="button"
       class="close"
@@ -87,7 +90,9 @@
   <div class="modal-body">
     <form (ngSubmit)="createMessage()">
       <div class="mb-3">
-        <label for="post-title" class="form-label">Title</label>
+        <label for="post-title" class="form-label">{{
+          "title" | translate
+        }}</label>
         <input
           type="text"
           class="form-control"
@@ -106,7 +111,9 @@
           [(ngModel)]="message.text"
         ></textarea>
       </div>
-      <button class="btn btn-dark btn-sm mt-4">Sumbit</button>
+      <button class="btn btn-dark btn-sm mt-4">
+        {{ "submit" | translate }}
+      </button>
     </form>
   </div>
   <div class="modal-footer">
@@ -115,7 +122,7 @@
       class="btn btn-secondary"
       (click)="modal.close('Close click')"
     >
-      Close
+      {{ "close" | translate }}
     </button>
   </div>
 </ng-template>
